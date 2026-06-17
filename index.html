@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>小红书轮播提示词生成器 | 5 页结构和配图提示词</title>
+  <meta name="description" content="免费小红书轮播提示词生成器：输入主题、读者、卡点和风格，生成 5 页轮播结构、每页文案、配图提示词和发布检查。">
+  <link rel="canonical" href="https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/">
+  <link rel="icon" href="xiaohongshu-carousel-prompt-generator-cover.png">
+  <meta property="og:title" content="小红书轮播提示词生成器">
+  <meta property="og:description" content="把一个小红书主题拆成 5 页轮播结构、每页文案和配图提示词。">
+  <meta property="og:url" content="https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/">
+  <meta property="og:image" content="https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/xiaohongshu-carousel-prompt-generator-cover.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "小红书轮播提示词生成器",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "输入主题、读者、卡点和视觉风格，生成小红书 5 页轮播结构、每页文案、配图提示词和发布检查。",
+    "url": "https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/",
+    "image": "https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/xiaohongshu-carousel-prompt-generator-cover.png",
+    "sameAs": [
+      "https://www.goofish.com/item?id=1059706201312",
+      "https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-carousel-prompt-pack.html"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CNY",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "这个生成器适合什么内容？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "适合小红书教程、工具清单、知识类笔记、服务说明、资料包种草和 Obsidian 素材转发布包。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "生成的提示词能保证爆款吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不能。它只负责把主题拆成更清楚的轮播结构和配图提示词，不承诺浏览量、涨粉、成交或收入。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "什么时候需要 19.90 元资料包或 79.8 元工作流？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "只想先解决 5 页轮播结构和配图提示词时，可以买 19.90 元资料包；如果已经持续发图文，想把标题、正文、轮播页、配图提示词和发布包归档固定进 Obsidian，再考虑 79.8 元工作流。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #101828;
+      --muted: #5f6977;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --line: #dbe4ef;
+      --red: #d92d20;
+      --blue: #155eef;
+      --green: #0f8f6f;
+      --deep: #0d1b2a;
+      --soft-red: #fff0f0;
+      --soft-blue: #eaf1ff;
+      --soft-green: #e8f7f1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.62;
+    }
+    a { color: inherit; }
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .topbar-inner {
+      width: min(1180px, calc(100% - 36px));
+      min-height: 58px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      color: var(--deep);
+      font-weight: 900;
+      text-decoration: none;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .nav a { text-decoration: none; }
+    .wrap {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+    .hero {
+      padding: 38px 0 28px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(217,45,32,.24);
+      background: rgba(217,45,32,.08);
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 850;
+    }
+    h1 {
+      max-width: 880px;
+      margin: 18px 0 12px;
+      font-size: clamp(38px, 5.2vw, 64px);
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.24;
+    }
+    p { margin: 0; }
+    .lead {
+      max-width: 780px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 19px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+      gap: 22px;
+      align-items: center;
+    }
+    .cover {
+      width: 100%;
+      display: block;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 850;
+    }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-line { background: #fff; border-color: var(--line); color: var(--ink); }
+    .btn-dark { background: var(--deep); color: #fff; }
+    .tool {
+      padding: 28px 0 56px;
+      border-top: 1px solid var(--line);
+    }
+    .tool-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(380px, 1.08fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .panel,
+    .result-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+    .panel { padding: 22px; }
+    .result-panel {
+      position: sticky;
+      top: 18px;
+      overflow: hidden;
+    }
+    .result-body { padding: 22px; }
+    .field {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdff;
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 850;
+    }
+    .hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+    input[type="text"],
+    select {
+      min-height: 44px;
+      padding: 0 12px;
+    }
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+      padding: 11px 12px;
+    }
+    .result-summary {
+      min-height: 150px;
+      margin-top: 16px;
+      background: #f8fbff;
+      font-size: 14px;
+    }
+    .page-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .page-card {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .page-card strong {
+      color: var(--red);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .page-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .badge {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--soft-blue);
+      color: var(--blue);
+      font-weight: 850;
+      font-size: 13px;
+    }
+    .section {
+      padding: 48px 0;
+      border-top: 1px solid var(--line);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .card p { color: var(--muted); }
+    .footer {
+      padding: 24px 0 34px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+    .footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer a { color: var(--muted); }
+    @media (max-width: 920px) {
+      .hero-grid,
+      .tool-layout,
+      .field-grid,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .result-panel { position: static; }
+      .nav { display: none; }
+      h1 { font-size: 42px; }
+      h2 { font-size: 26px; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./">AI Workbench Store</a>
+      <div class="nav">
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/virtual-products.html">虚拟资料</a>
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-title-scorer.html">标题评分器</a>
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xhs-obsidian-workflow.html">79.8 工作流</a>
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xhs-obsidian-workflow-fit-checker.html">适配评分</a>
+        <a href="https://www.goofish.com/item?id=1059706201312" target="_blank" rel="noopener">闲鱼购买</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">免费工具：小红书轮播结构和配图提示词</span>
+        <h1>小红书轮播提示词生成器</h1>
+        <p class="lead">输入一个主题，自动拆成 5 页轮播：封面、痛点、方法、案例、总结。每页给出画面文案和可复制配图提示词，适合把 Obsidian 素材变成发布包。</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#generator">开始生成</a>
+          <a class="btn btn-line" href="https://www.goofish.com/item?id=1059706201312" target="_blank" rel="noopener">闲鱼买 19.90 元资料包</a>
+          <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-carousel-prompt-pack.html">查看资料包详情</a>
+          <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xhs-obsidian-workflow.html">查看 79.8 元完整工作流</a>
+          <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-title-scorer.html">先评标题</a>
+        </div>
+      </div>
+      <img class="cover" src="xiaohongshu-carousel-prompt-generator-cover.png" alt="小红书轮播提示词生成器封面">
+    </div>
+  </header>
+
+  <main class="tool" id="generator">
+    <div class="wrap">
+      <div class="tool-layout">
+        <form class="panel" id="promptForm">
+          <h2>生成轮播发布包</h2>
+          <div class="field">
+            <label for="topic">主题</label>
+            <input id="topic" type="text" value="如何把 Obsidian 笔记变成小红书发布包" autocomplete="off">
+            <div class="hint">写成具体问题或交付结果，不要只写大类。</div>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="reader">读者</label>
+              <select id="reader">
+                <option value="小红书新手">小红书新手</option>
+                <option value="知识型创作者" selected>知识型创作者</option>
+                <option value="课程老师">课程老师</option>
+                <option value="咨询顾问">咨询顾问</option>
+                <option value="AI 工具用户">AI 工具用户</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pain">主要卡点</label>
+              <select id="pain">
+                <option value="素材很多但不知道怎么拆成图文">素材很多但不会拆图文</option>
+                <option value="标题、正文和配图提示词每次都重写" selected>标题正文配图每次重写</option>
+                <option value="轮播页顺序混乱，读者看不懂">轮播顺序混乱</option>
+                <option value="AI 生成结果散在聊天记录里">AI 结果难复用</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="tone">表达风格</label>
+              <select id="tone">
+                <option value="清爽教程风" selected>清爽教程风</option>
+                <option value="真实复盘风">真实复盘风</option>
+                <option value="工具清单风">工具清单风</option>
+                <option value="避坑提醒风">避坑提醒风</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="visual">视觉方向</label>
+              <select id="visual">
+                <option value="白底桌面、便签、流程箭头、红绿强调色" selected>白底桌面流程</option>
+                <option value="手机界面、五张轮播卡片、清晰文字层级">手机轮播卡片</option>
+                <option value="Obsidian 笔记、文件夹、发布包归档结构">Obsidian 归档结构</option>
+                <option value="对比图、修改前后、检查清单">对比和检查清单</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:14px;">
+            <label for="proof">可用素材或证明</label>
+            <textarea id="proof">我已经有 Obsidian 笔记、课程稿或长文素材，但每次发布小红书都卡在标题、正文、轮播页和配图提示词。</textarea>
+            <div class="hint">写真实来源、案例或限制。不要写包涨粉、包成交。</div>
+          </div>
+        </form>
+
+        <aside class="result-panel">
+          <div class="result-body">
+            <h2>生成结果</h2>
+            <p id="intro" class="lead" style="font-size:16px;margin-bottom:0;"></p>
+            <div class="badges" id="badges"></div>
+            <div class="page-list" id="pageList"></div>
+            <textarea class="result-summary" id="summary" readonly></textarea>
+            <div class="actions" id="actions"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>这个工具解决什么</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>先定 5 页结构</h3>
+          <p>避免把所有内容塞进一页，固定成封面、痛点、方法、案例、总结。</p>
+        </div>
+        <div class="card">
+          <h3>每页有画面文案</h3>
+          <p>每页只承担一个任务，先写清楚图上应该出现什么文字。</p>
+        </div>
+        <div class="card">
+          <h3>配图提示词可复制</h3>
+          <p>把画面、布局、文字层级、风格和比例写进提示词，减少返工。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>下一步</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>标题还不稳</h3>
+          <p>先用免费标题评分器检查具体度、点击理由和公式匹配。</p>
+          <div class="actions"><a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-title-scorer.html">打开标题评分器</a></div>
+        </div>
+        <div class="card">
+          <h3>想直接拿模板</h3>
+          <p>19.90 元资料包包含 5 页 SOP、30 条配图提示词、完整示例和发布检查清单。</p>
+          <div class="actions"><a class="btn btn-primary" href="https://www.goofish.com/item?id=1059706201312" target="_blank" rel="noopener">闲鱼担保购买</a></div>
+        </div>
+        <div class="card">
+          <h3>想固定到 Obsidian</h3>
+          <p>如果你每周都发图文，可以用 79.8 元工作流把素材、标题、正文、提示词和发布包归档固定下来。</p>
+          <div class="actions"><a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xhs-obsidian-workflow.html">查看完整工作流</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>Contact: zhongruanjie@gmail.com</span>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xhs-obsidian-workflow.html">小红书 Obsidian 工作流</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-title-scorer.html">标题评分器</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/virtual-products.html">虚拟资料货架</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/privacy.html">Privacy Policy</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/terms.html">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script>
+    const pages = [
+      ["P01 封面页", "直接说清结果", "{topic}", "突出一个明确结果，中心大标题，旁边放 3 个关键词标签"],
+      ["P02 痛点页", "让读者对号入座", "{pain}", "把混乱流程画成散落便签和卡住的箭头"],
+      ["P03 方法页", "给出拆解路径", "拆成 5 页：封面 / 痛点 / 方法 / 案例 / 总结", "用五段流程图展示从素材到发布包"],
+      ["P04 案例页", "展示前后变化", "一条素材先变 brief，再变轮播发布包", "左右对比，左边是原始笔记，右边是五页轮播卡片"],
+      ["P05 总结页", "边界和行动", "先跑一条，再固定成自己的发布流程", "检查清单式布局，突出下一步行动"]
+    ];
+    const form = document.getElementById("promptForm");
+    const fields = ["topic", "reader", "pain", "tone", "visual", "proof"];
+    const intro = document.getElementById("intro");
+    const badges = document.getElementById("badges");
+    const pageList = document.getElementById("pageList");
+    const summary = document.getElementById("summary");
+    const actions = document.getElementById("actions");
+
+    function value(id) {
+      return document.getElementById(id).value.trim();
+    }
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+    function render() {
+      const data = Object.fromEntries(fields.map((id) => [id, value(id)]));
+      intro.textContent = `给 ${data.reader} 的 5 页轮播发布包：先讲 ${data.pain}，再给出可执行结构。`;
+      badges.innerHTML = [data.reader, data.tone, "3:4 轮播", "不承诺流量"].map((item) => `<span class="badge">${escapeHtml(item)}</span>`).join("");
+      const rendered = pages.map(([title, purpose, text, visual]) => {
+        const pageText = text.replace("{topic}", data.topic).replace("{pain}", data.pain);
+        const prompt = [
+          `小红书 3:4 轮播图，${data.tone}，${data.visual}`,
+          `页面任务：${purpose}`,
+          `图上文字：${pageText}`,
+          `画面：${visual}`,
+          "要求：文字清晰，留白充足，红绿强调色，真实可读，不要二维码、网址、联系方式、收益承诺或涨粉承诺"
+        ].join("；");
+        return { title, purpose, pageText, prompt };
+      });
+      pageList.innerHTML = rendered.map((item) => `
+        <div class="page-card">
+          <strong>${escapeHtml(item.title)}｜${escapeHtml(item.purpose)}</strong>
+          <p>图上文案：${escapeHtml(item.pageText)}</p>
+          <p>配图提示词：${escapeHtml(item.prompt)}</p>
+        </div>
+      `).join("");
+      const text = [
+        "来源：小红书轮播提示词生成器",
+        `主题：${data.topic}`,
+        `读者：${data.reader}`,
+        `卡点：${data.pain}`,
+        `风格：${data.tone}`,
+        `视觉：${data.visual}`,
+        `素材：${data.proof}`,
+        "",
+        ...rendered.map((item) => `${item.title}：${item.pageText}\n提示词：${item.prompt}`)
+      ].join("\n");
+      summary.value = text;
+      actions.innerHTML = [
+        `<a class="btn btn-primary" href="https://www.goofish.com/item?id=1059706201312" target="_blank" rel="noopener">闲鱼担保购买 19.90 元资料包</a>`,
+        `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-carousel-prompt-pack.html">查看资料包详情</a>`,
+        `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/order.html?plan=xhs-carousel-19.90&scenario=${encodeURIComponent(text)}">生成备用订单</a>`,
+        `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/order.html?plan=xhs-obsidian-79.80&scenario=${encodeURIComponent(text)}">生成 79.8 元工作流订单</a>`,
+        `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xhs-obsidian-workflow-fit-checker.html">先测 Obsidian 适配</a>`,
+        `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/order.html?plan=9.90&scenario=${encodeURIComponent(text)}">生成 9.90 元标题包订单</a>`
+      ].join("");
+    }
+    form.addEventListener("input", render);
+    form.addEventListener("change", render);
+    render();
+  </script>
+</body>
+</html>
