@@ -264,6 +264,24 @@
       background: #f8fbff;
       font-size: 14px;
     }
+    .buy-note {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .buy-note textarea {
+      min-height: 150px;
+      background: #f8fbff;
+      color: #233142;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .copy-status {
+      min-height: 20px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+    }
     .page-list {
       display: grid;
       gap: 10px;
@@ -442,6 +460,17 @@
           </div>
         </aside>
       </div>
+      <div class="panel buy-note">
+        <h2>拍下前可直接发这段</h2>
+        <p>这段备注会带上你的主题和用途，适合在闲鱼咨询或拍下后发给卖家，减少来回沟通。</p>
+        <textarea id="buyNote" readonly></textarea>
+        <div class="actions">
+          <button class="btn btn-dark" id="copyBuyNote" type="button">复制闲鱼购买备注</button>
+          <a class="btn btn-primary" href="https://www.goofish.com/item?id=1059706201312" target="_blank" rel="noopener">打开闲鱼商品</a>
+          <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xhs-obsidian-workflow.html">查看 79.8 升级工作流</a>
+        </div>
+        <div class="copy-status" id="copyStatus"></div>
+      </div>
     </div>
   </main>
 
@@ -514,6 +543,9 @@
     const pageList = document.getElementById("pageList");
     const summary = document.getElementById("summary");
     const actions = document.getElementById("actions");
+    const buyNote = document.getElementById("buyNote");
+    const copyBuyNote = document.getElementById("copyBuyNote");
+    const copyStatus = document.getElementById("copyStatus");
 
     function value(id) {
       return document.getElementById(id).value.trim();
@@ -526,6 +558,17 @@
         "\"": "&quot;",
         "'": "&#39;"
       }[char]));
+    }
+    function buildBuyNote(data) {
+      return [
+        "你好，我想拍这个 19.90 元小红书轮播提示词资料包。",
+        `我的主题：${data.topic}`,
+        `主要卡点：${data.pain}`,
+        `读者：${data.reader}`,
+        "我需要：5 页轮播结构、每页文案、配图提示词、发布前检查清单。",
+        "我知道这个资料包不承诺流量、涨粉或成交。",
+        "如果后面要把素材、标题、正文和发布包固定到 Obsidian，我再咨询 79.8 元工作流升级。"
+      ].join("\n");
     }
     function render() {
       const data = Object.fromEntries(fields.map((id) => [id, value(id)]));
@@ -561,8 +604,10 @@
         ...rendered.map((item) => `${item.title}：${item.pageText}\n提示词：${item.prompt}`)
       ].join("\n");
       summary.value = text;
+      buyNote.value = buildBuyNote(data);
       actions.innerHTML = [
         `<a class="btn btn-primary" href="https://www.goofish.com/item?id=1059706201312" target="_blank" rel="noopener">闲鱼担保购买 19.90 元资料包</a>`,
+        `<button class="btn btn-dark" type="button" data-copy-buy-note="1">复制闲鱼购买备注</button>`,
         `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/xiaohongshu-carousel-prompt-pack.html">查看资料包详情</a>`,
         `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/order.html?plan=xhs-carousel-19.90&scenario=${encodeURIComponent(text)}">生成备用订单</a>`,
         `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/order.html?plan=xhs-obsidian-79.80&scenario=${encodeURIComponent(text)}">生成 79.8 元工作流订单</a>`,
@@ -570,8 +615,24 @@
         `<a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/order.html?plan=9.90&scenario=${encodeURIComponent(text)}">生成 9.90 元标题包订单</a>`
       ].join("");
     }
+    async function copyCurrentBuyNote() {
+      try {
+        await navigator.clipboard.writeText(buyNote.value);
+        copyStatus.textContent = "已复制，可粘贴到闲鱼聊天。";
+      } catch (error) {
+        buyNote.select();
+        document.execCommand("copy");
+        copyStatus.textContent = "已选中备注，可手动复制。";
+      }
+    }
     form.addEventListener("input", render);
     form.addEventListener("change", render);
+    copyBuyNote.addEventListener("click", copyCurrentBuyNote);
+    actions.addEventListener("click", (event) => {
+      if (event.target && event.target.matches("[data-copy-buy-note]")) {
+        copyCurrentBuyNote();
+      }
+    });
     render();
   </script>
 </body>
