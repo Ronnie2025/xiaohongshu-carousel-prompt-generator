@@ -2,9 +2,23 @@
 
 Free browser-side tool for drafting Xiaohongshu carousel hooks, five-slide structures, image prompts, and publishing checklist prompts.
 
+小红书轮播提示词 / RedNote carousel prompt / 小红书配图提示词免费工具：输入主题、读者、卡点和风格，生成 5 页轮播结构、每页文案、配图提示词和发布检查，并导向 19.90 元资料包。
+
 Live page:
 
 https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/
+
+Free template:
+
+https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/templates/xiaohongshu-carousel-prompt-template.md
+
+Free sample:
+
+https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/samples/xiaohongshu-carousel-prompt-sample.md
+
+Download release:
+
+https://github.com/Ronnie2025/xiaohongshu-carousel-prompt-generator/releases/tag/v2026.06.19-search-bridge
 
 ## What It Does
 
@@ -12,6 +26,7 @@ https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/
 - Generates copy for cover, pain point, method, example, and closing slides.
 - Writes image prompts for each slide.
 - Produces a publishing checklist and a copyable summary.
+- Provides a free Markdown template and a complete public sample for GitHub/raw search traffic.
 - Links buyers who need the full prompt pack to the Goofish listing.
 
 ## Product Boundary
@@ -26,3 +41,4 @@ https://www.goofish.com/item?id=1059706201312
 
 Open `index.html` in a browser. No build step is required.
 
+The paid 19.90 CNY pack is sold through Goofish. This repository only publishes the free generator, template, and sample.

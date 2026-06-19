@@ -2,15 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/</loc>
-    <lastmod>2026-06-18</lastmod>
+    <lastmod>2026-06-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/templates/xiaohongshu-carousel-prompt-template.md</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/samples/xiaohongshu-carousel-prompt-sample.md</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/xiaohongshu-carousel-prompt-generator-cover.png</loc>
-    <lastmod>2026-06-18</lastmod>
+    <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 </urlset>
-
