@@ -16,6 +16,10 @@ Free sample:
 
 https://ronnie2025.github.io/xiaohongshu-carousel-prompt-generator/samples/xiaohongshu-carousel-prompt-sample.md
 
+Public Gist:
+
+https://gist.github.com/Ronnie2025/eea5a03d058f60d771748145f5b03877
+
 Download release:
 
 https://github.com/Ronnie2025/xiaohongshu-carousel-prompt-generator/releases/tag/v2026.06.19-search-bridge
@@ -27,6 +31,7 @@ https://github.com/Ronnie2025/xiaohongshu-carousel-prompt-generator/releases/tag
 - Writes image prompts for each slide.
 - Produces a publishing checklist and a copyable summary.
 - Provides a free Markdown template and a complete public sample for GitHub/raw search traffic.
+- Mirrors the template and sample into a public Gist for additional GitHub discovery.
 - Links buyers who need the full prompt pack to the Goofish listing.
 
 ## Product Boundary
